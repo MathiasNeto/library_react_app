@@ -4,10 +4,10 @@ import 'bootswatch/dist/solar/bootstrap.css'
 import Login from './views/Login';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './views/Home';
-import teste from "./views/teste"
+import CreateBook from './views/CreateBook';
 import "toastr/build/toastr.css" 
 import "toastr/build/toastr.min.js"
-import CreateUser from './views/CreateUser'
+import ListBooks from './views/ListBooks';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -15,7 +15,9 @@ root.render(
       <Routes>
         <Route path='/' element={<Login/>}/>
         <Route path='/Home' element={<Home/>}/>
-        <Route path='/CreateUser' element={<CreateUser/>}/>
+        {/* //<Route path='/CreateUser' element={<CreateUser/>}/> */}
+        <Route path='/CreateBook' element={<CreateBook/>}/>
+        <Route path='/ListBooks' element={<ListBooks/>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
