@@ -10,6 +10,10 @@ export const saveBook = (book) => {
     return axios.post(baseUrl + "librarian/book", book)
 }
 
-export const deleteBook = (book) => {
-    return axios.delete(baseUrl + "librarian/book", book)
+export const deleteBook = (isbn) => {
+    return axios.delete(baseUrl + "librarian/delete_book/"+isbn)
+}
+
+export const getByIsbn = (isbn) =>{
+    return axios.put(baseUrl+"librarian/bookUpdate/"+isbn)
 }

@@ -7,11 +7,11 @@ import { saveBook, getByIsbn} from "../services/LivroService";
 import { messageErro, messageSuccess } from "../utils/toastr";
 import NavBarItem from "./NavBarItem";
 
-export default function CreateBook() {
+export default function EditBook() {
 
-  let navigate = useNavigate()
+  let navigate = useNavigate();
 
-
+  
   const {isbn} = useParams();
 
   const [book, setBooks] = useState({})

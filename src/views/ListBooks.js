@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavBarItem from "./NavBarItem";
 import { getAll, deleteBook } from "../services/LivroService";
 import { useNavigate } from "react-router-dom";
+import { messageErro, messageSuccess } from "../utils/toastr";
 
 export default function ListBooks() {
 
@@ -10,18 +11,33 @@ export default function ListBooks() {
     const [books, setBooks] = useState([])
 
     useEffect(() => {
+
         getAll().then(response => {
             setBooks(response.data)
-            console.log(response.data)
+
         })
     }, [])
 
     function cadBook() {
-        navigate("/createBook")
+        navigate("/CreateBook")
     }
 
-    function remove(book){
-        deleteBook(book)
+
+    function removeBook(book) {
+        deleteBook(book.isbn).then(response => {
+            messageSuccess("Livro removido com Sucesso!")
+            getAll().then(response => {
+                setBooks(response.data)
+
+            })
+        }).catch(error => {
+            if (error.response && error.response.status === 409) {
+                messageErro("Não foi possível excluir o livro, pois ele está emprestado.");
+            } else {
+                messageErro("Erro ao deletar o Livro")
+            }
+        })
+
     }
 
     return (
@@ -40,8 +56,7 @@ export default function ListBooks() {
                             <th>Titulo</th>
                             <th>ISBN</th>
                             <th>Area</th>
-                            <th>Biblioteca</th>
-                            <th>Disponível</th>
+                            <th>Status</th>
                             <th scope="col" className="text-center">Ação</th>
                         </tr>
                     </thead>
@@ -51,17 +66,16 @@ export default function ListBooks() {
                                 <td>{book.name}</td>
                                 <td>{book.isbn}</td>
                                 <td>{book.area}</td>
-                                <td>{book.library_id}</td>
-                                <td>{book.isAvailable ? "Disponível" : "Indisponível"}</td>
+                                <td>{book.isAvailable ? "Disponível" : "Emprestado"}</td>
                                 <td>
                                     <div className="text-center">
                                         <button
                                             className="btn btn-secondary me-4"
-                                            onClick={() => (window.location.href = 'cadastraLivro.html')}
+                                            /* onClick={(ev) => editBook(book.isbn)} */
                                         >
                                             Editar
                                         </button>
-                                        <button className="btn btn-danger">Excluir</button>
+                                        <button onClick={(ev) => removeBook(book)} className="btn btn-danger">Excluir</button>
                                     </div>
                                 </td>
                             </tr>
