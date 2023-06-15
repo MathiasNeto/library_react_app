@@ -1,7 +1,13 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 
 export default function NavBarItem() {
+
+    const navigate = useNavigate();
+    function Logout() {
+        localStorage.removeItem("user");
+        navigate("/");
+    }
     return (
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -23,7 +29,9 @@ export default function NavBarItem() {
                         <a className="nav-link" href="/ListBooks">Livros</a>
                     </li>
                     <li className="nav-item active">
-                        <a className="nav-link" href="/">Sair</a>
+                        <button className="nav-link btn btn-link" onClick={Logout}>
+                            Sair
+                        </button>
                     </li>
                 </ul>
             </div>

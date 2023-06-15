@@ -21,7 +21,7 @@ export default function Login() {
     axios.post('http://localhost:8080/librarian/login', login)
       .then(response => {
         console.log(JSON.stringify(response.data))
-        localStorage.setItem("email", JSON.stringify(response.data))
+        localStorage.setItem("user", JSON.stringify(response.data))
         navigate("/Home")
       })
       .catch(erro => messageErro("Usuario ou Senha Invalida"))
