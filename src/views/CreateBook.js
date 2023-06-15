@@ -3,45 +3,58 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import Card from "./Card";
-
+import { saveBook } from "../services/LivroService";
+import { messageErro, messageSuccess } from "../utils/toastr";
+import NavBarItem from "./NavBarItem";
 
 const CadastroLivro = () => {
- 
-  const valueLivro = {
-    name: '',
-    area: '',
-    isbn: '',
-  }
 
-  const [livro, setValues] = useState(valueLivro)
+  let navigate = useNavigate()
+
+  const [book, setBooks] = useState({})
 
   function onChange(ev) {
     const { name, value } = ev.target
-    setValues({ ...livro, [name]: value })
-    
+    setBooks({ ...book, [name]: value })
   }
-  function sendValues(ev) {
+
+  function resetForm() {
+    setBooks({})
+  }
+
+  function onSubmit(ev) {
     ev.preventDefault();
-    valueLivro.area = livro.area
-    valueLivro.isbn = livro.isbn
-    valueLivro.name = livro.name
-    console.log(valueLivro)
-}
+
+    saveBook(book)
+      .then(() => {
+        messageSuccess("Livro cadastrado com sucesso!");
+        resetForm();
+      })
+      .catch(erro => messageErro("Erro ao salvar livro"));
+  }
+
+
+  function showAll() {
+    navigate("/ListBooks")
+  }
 
   return (
     <>
-      <NavBar />
+      <NavBarItem />
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-md-9">
+            <button type="button"
+              onClick={showAll}
+              className="btn btn-secondary mb-3">Ver todos</button>
             <Card titulo="Cadastro de Livros" className="mb-4">
               <form>
                 <div className="form-group">
-                  <label htmlFor="nome">Nome:</label>
+                  <label htmlFor="name">Nome:</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="nome"
+                    id="name"
                     name="name"
                     onChange={onChange}
                     required
@@ -74,7 +87,7 @@ const CadastroLivro = () => {
                 </div>
 
                 <div className="d-flex justify-content-center">
-                  <button onClick={sendValues} className="btn btn-primary btn-lg mt-3">
+                  <button onClick={onSubmit} className="btn btn-primary btn-lg mt-3">
                     Salvar
                   </button>
                 </div>
