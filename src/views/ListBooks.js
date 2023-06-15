@@ -13,13 +13,20 @@ export default function ListBooks() {
     useEffect(() => {
 
         getAll().then(response => {
-            setBooks(response.data)
+            setBooks(response.data.area)
+            setBooks(response.data.name)
 
         })
     }, [])
 
+
+
     function cadBook() {
         navigate("/CreateBook")
+    }
+
+    function editBook(isbn){
+        navigate("/EditBook/"+isbn);
     }
 
 
@@ -71,7 +78,7 @@ export default function ListBooks() {
                                     <div className="text-center">
                                         <button
                                             className="btn btn-secondary me-4"
-                                            /* onClick={(ev) => editBook(book.isbn)} */
+                                            onClick={(ev) => editBook(book.isbn)}
                                         >
                                             Editar
                                         </button>

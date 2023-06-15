@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-
 import { useParams, useNavigate } from "react-router-dom";
-
 import Card from "./Card";
 import { saveBook, getByIsbn} from "../services/LivroService";
 import { messageErro, messageSuccess } from "../utils/toastr";
@@ -11,7 +9,7 @@ export default function EditBook() {
 
   let navigate = useNavigate();
 
-  
+
   const {isbn} = useParams();
 
   const [book, setBooks] = useState({})
@@ -22,7 +20,7 @@ export default function EditBook() {
         setBooks(response.data)
       })
     } 
-  },[])
+  },[isbn])
 
   function onChange(ev) {
     const { name, value } = ev.target
@@ -75,18 +73,6 @@ export default function EditBook() {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="isbn">ISBN:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="isbn"
-                    name="isbn"
-                    value={book.isbn || ""}
-                    onChange={onChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
                   <label htmlFor="area">Área:</label>
                   <select
                     className="form-control"
@@ -101,7 +87,6 @@ export default function EditBook() {
                     <option value="EXACT_SCIENCES">Exatas</option>
                   </select>
                 </div>
-
                 <div className="d-flex justify-content-center">
                   <button onClick={onSubmit} className="btn btn-primary btn-lg mt-3">
                     Salvar
